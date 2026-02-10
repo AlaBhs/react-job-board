@@ -1,25 +1,71 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from 'react-router-dom';
+
 import Layout from './layouts/Layout';
 import HomePage from './pages/HomePage';
 import JobsPage from './pages/JobsPage';
-import AddJobPage from './pages/AddJobPage';
-import NotFoundPage from './pages/NotFoundPage';
 import JobPage from './pages/JobPage';
+import AddJobPage from './pages/AddJobPage';
+import EditJobPage from './pages/EditJobPage';
+import NotFoundPage from './pages/NotFoundPage';
+import jobLoader from './loaders/jobLoader';
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="jobs" element={<JobsPage />} />
-          <Route path="jobs/:id" element={<JobPage />} />
-          <Route path="add-job" element={<AddJobPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+  // Add Job
+  const addJob = async (newJob) => {
+    await fetch('/api/jobs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newJob),
+    });
+  };
+
+  // Delete Job
+  const deleteJob = async (id) => {
+    await fetch(`/api/jobs/${id}`, {
+      method: 'DELETE',
+    });
+  };
+
+  // Update Job
+  const updateJob = async (job) => {
+    await fetch(`/api/jobs/${job.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(job),
+    });
+  };
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path='/' element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path='jobs' element={<JobsPage />} />
+
+        <Route
+          path='jobs/:id'
+          element={<JobPage deleteJob={deleteJob} />}
+          loader={jobLoader}
+        />
+
+        <Route path='add-job' element={<AddJobPage addJobSubmit={addJob} />} />
+
+        <Route
+          path='jobs/edit/:id'
+          element={<EditJobPage updateJobSubmit={updateJob} />}
+          loader={jobLoader}
+        />
+
+        <Route path='*' element={<NotFoundPage />} />
+      </Route>
+    )
   );
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;
