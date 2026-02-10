@@ -1,20 +1,23 @@
-import Hero from "./components/Hero";
-import HomeCards from "./components/HomeCards";
-import JobListings from "./components/JobListings";
-import Navbar from "./components/Navbar";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './layouts/Layout';
+import HomePage from './pages/HomePage';
+import JobsPage from './pages/JobsPage';
+import AddJobPage from './pages/AddJobPage';
+import NotFoundPage from './pages/NotFoundPage';
 
-function App() {
+const App = () => {
   return (
-    <>
-      <Navbar />
-      <Hero
-        title="Level Up Your React Career"
-        subtitle="Browse jobs, apply fast, and grow as a React developer"
-      />
-      <HomeCards />
-      <JobListings />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="jobs" element={<JobsPage />} />
+          <Route path="add-job" element={<AddJobPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
