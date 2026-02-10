@@ -83,6 +83,20 @@
         "contactEmail": "contact@ipsumlorem.com",
         "contactPhone": "555-555-5555"
       }
+    },
+    {
+      "id": "34d0",
+      "title": "exemple",
+      "type": "exemple",
+      "location": "exemple",
+      "salary": "1",
+      "description": "exemple",
+      "company": {
+        "name": "exemple",
+        "description": "exemple",
+        "contactEmail": "exemple@gmail.com",
+        "contactPhone": "5555555555"
+      }
     }
   ]
 }
