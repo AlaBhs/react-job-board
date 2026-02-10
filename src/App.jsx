@@ -7,7 +7,10 @@ function App() {
   return (
     <>
       <Navbar />
-      <Hero />
+      <Hero
+        title="Level Up Your React Career"
+        subtitle="Browse jobs, apply fast, and grow as a React developer"
+      />
       <HomeCards />
       <JobListings />
     </>
